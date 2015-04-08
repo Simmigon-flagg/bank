@@ -13,6 +13,7 @@
  */
 package bank;
 
+import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,19 +27,34 @@ public class Bank {
 
     public static void main(String[] args) {
 
-        String run = null;
-        int countCustomers = 0;
-        String teller;
-        long startTime = System.currentTimeMillis();
-        
-        int secondCustomerWantToWait = 0;
-        while(secondCustomerWantToWait < 2){
-        secondCustomerWantToWait = (int)Math.random() * 10;
+        Date clock;
+        String time = "";
+        Customers customers1 = new Customers();
+        System.out.println("Seconds: "+processTime(customers1.getTimeWithTeller()));
+     
+
+        //Get the current Time and add to minutes
+        while (true) {
+
+            clock = new Date();
+            String[] myclock = clock.toString().split(" ");
+            time = myclock[3];
+
+            System.out.println("Time: " + time);
         }
-        System.out.println("Second Customer Want To Wait: " + secondCustomerWantToWait);
-        
-        
-       
+
+        /*Customers customers1 = new Customers();
+         Customers customers2 = new Customers();
+         Customers customers3 = new Customers();
+         Customers customers4 = new Customers();
+
+         System.out.println("Wait time: " + customers1.getTimeWithTeller());
+         System.out.println(" ");
+         System.out.println("Wait time: " + customers2.getTimeWithTeller());
+         System.out.println(" ");
+         System.out.println("Wait time: " + customers3.getTimeWithTeller());
+         System.out.println(" ");
+         System.out.println("Wait time: " + customers4.getTimeWithTeller());*/
 //        do {
 //
 //            //Code happens here.
@@ -48,17 +64,44 @@ public class Bank {
 //        } while (run.equalsIgnoreCase("y"));
     }
 
+    static int processTime(int customersWaitTime) {
+        long theTime = (long) System.currentTimeMillis();
+        theTime /= 1000;
+        theTime %= 60;
+        System.out.println("Current Time: " + theTime);
+        System.out.println("Time Customer wants to wait: " + customersWaitTime + " seconds.");
+        int currentTime = (int) theTime + customersWaitTime;
+        if (currentTime < 59) {
+            return currentTime;
+        } else {
+            currentTime = (int) theTime + customersWaitTime;
+            return currentTime -= 60;
+
+        }
+
+    }
 }
 
 class Customers {
 
     private long timeWithTeller;
 
-    public long getTimeWithTeller() {
-        return timeWithTeller;
+    public int getTimeWithTeller() {
+        int secondsCustomerWantToWait = 0;
+        for (int i = 0; i < 10; i++) {
+            secondsCustomerWantToWait = (int) (Math.random() * 10);
+            if ((secondsCustomerWantToWait >= 2) && (secondsCustomerWantToWait <= 6)) {
+                break;
+            }
+        }
+
+        // System.out.println("The Seconds for the current time: " + currentTime);       
+        // secondsCustomerWantToWait + System.currentTimeMillis();
+        return secondsCustomerWantToWait;
     }
 
     public void setTimeWithTeller(long timeWithTeller) {
+
         this.timeWithTeller = timeWithTeller;
     }
 }
